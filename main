@@ -1,7 +1,6 @@
 import os
 
 #variaveis globais
-jogarNovamente = 's'
 jogadas = 0
 jogador = 1
 maxJogadas = 9
