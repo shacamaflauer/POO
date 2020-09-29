@@ -1,0 +1,154 @@
+import os
+
+#variaveis globais
+jogarNovamente = 's'
+jogadas = 0
+jogador = 1
+maxJogadas = 9
+vitoria = 'n'
+taboleiro = [
+    [' ', ' ', ' '],
+    [' ', ' ', ' '],
+    [' ', ' ', ' ']
+]
+
+#função que monta a tela
+def tela():
+    global taboleiro
+    global jogadas
+    os.system("cls")
+    print("   0   1   2")
+    print("0:  " + taboleiro[0][0] + " | " + taboleiro[0][1] + " | " + taboleiro[0][2])
+    print("   -----------")
+    print("1:  " + taboleiro[1][0] + " | " + taboleiro[1][1] + " | " + taboleiro[1][2])
+    print("   -----------")
+    print("2:  " + taboleiro[2][0] + " | " + taboleiro[2][1] + " | " + taboleiro[2][2])
+    print("   -----------")
+    print("Jogadas: " + str(jogadas))
+
+#função jogador 1
+def jogador1Joga():
+    global jogadas
+    global jogador
+    global vitoria
+    global maxJogadas
+    if jogador==1 and jogadas<maxJogadas:
+        try:
+            print('Jogador1')
+            l = int(input("Linha..: "))
+            c = int(input("Coluna.: "))
+            while taboleiro[l][c] != " ":
+                print('Jogada Invalida')
+                l = int(input("Linha..: "))
+                c = int(input("Coluna.: "))
+            taboleiro[l][c] = "X"
+            jogador = 2
+            jogadas += 1
+            os.system('cls')
+        except:
+            print("Jogada invalida")
+            os.system('pause')
+
+
+#função jogador 2
+def jogador2Joga():
+    global jogadas
+    global jogador
+    global vitoria
+    global maxJogadas
+    if jogador == 2 and jogadas < maxJogadas:
+        try:
+            print('Jogador2')
+            l = int(input("Linha..: "))
+            c = int(input("Coluna.: "))
+            while taboleiro[l][c] != " ":
+                print('jogada invalida')
+                l = int(input("Linha..: "))
+                c = int(input("Coluna.: "))
+            taboleiro[l][c] = "O"
+            jogador = 1
+            jogadas += 1
+            os.system('cls')
+        except:
+            print("Jogada invalida")
+            os.system('pause')
+
+#função para testar os campos para verificar vitoria
+def vitoria():
+    global taboleiro
+    vitoria = 'n'
+    simbolos = ['X','O']
+    for s in simbolos:
+        vitoria = 'n'
+        indiceLinha = 0
+        while indiceLinha < 3:
+            soma = 0
+            indiceColuna = 0
+            while indiceColuna < 3:
+                if (taboleiro[indiceLinha][indiceColuna] == s):
+                    soma += 1
+                indiceColuna += 1
+            if soma == 3:
+                vitoria = s
+                break
+            indiceLinha += 1
+        if vitoria != "n":
+            break
+
+        soma=0
+        diagonalprincipal=0
+        while diagonalprincipal<3:
+            if (taboleiro[diagonalprincipal][diagonalprincipal] == s):
+                soma += 1
+            diagonalprincipal+=1
+        if soma == 3:
+            vitoria = s
+            break
+        break
+
+        indiceColuna = 0
+        while indiceColuna < 3:
+            soma = 0
+            indiceLinha = 0
+            while indiceLinha < 3:
+                if (taboleiro[indiceLinha][indiceColuna] == s):
+                    soma += 1
+                indiceLinha += 1
+            if soma == 3:
+                vitoria = s
+                break
+            break
+            indiceColuna += 1
+        if vitoria != "n":
+            break
+
+        soma=0
+        indiceLinha=0
+        indiceColuna=2
+        while indiceLinha<0:
+            if (taboleiro[indiceLinha][indiceColuna] == s):
+                soma+=1
+            indiceLinha+=1
+            indiceColuna-=1
+        if soma == 3:
+            vitoria = s
+            break
+        break
+    return vitoria
+
+#while do jogo
+while True:
+    tela()
+    while maxJogadas <= 9:
+        if (vitoria() != 'n') or (jogadas > maxJogadas):
+            vit = vitoria()
+            print("Jogador do " + str(vit) + " venceu...")
+            break
+        else:
+            if jogador == 1:
+                jogador1Joga()
+                tela()
+            elif jogador == 2:
+                jogador2Joga()
+                tela()
+    break
